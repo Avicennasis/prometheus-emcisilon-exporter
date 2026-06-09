@@ -31,7 +31,7 @@ func init() {
 	registerCollector("statfs", defaultEnabled, NewStatfsCollector)
 }
 
-//NewStatfsCollector exposed various metrics and information about nodes.
+//NewStatfsCollector exposes various metrics and information about nodes.
 func NewStatfsCollector() (Collector, error) {
 	return &statfsCollector{
 		statfsFileBlockAvail: prometheus.NewDesc(

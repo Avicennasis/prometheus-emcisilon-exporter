@@ -85,7 +85,7 @@ func (c *quotaSummaryCollector) Update(ch chan<- prometheus.Metric) error {
 func (c *quotaSummaryCollector) updateQuotaSummary(ch chan<- prometheus.Metric) error {
 	summary, err := isiclient.GetQuotaSummary(IsiCluster.Client)
 	if err != nil {
-		log.Warn("Unabled to update quota summary information.")
+		log.Warn("Unable to update quota summary information.")
 		return err
 	}
 

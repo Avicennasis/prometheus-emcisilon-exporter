@@ -23,19 +23,19 @@ type storagePoolsCollector struct {
 	storagePoolManual              *prometheus.Desc
 	storagePoolAvailBytes          *prometheus.Desc
 	storagePoolAvailSSDBytes       *prometheus.Desc
-	storagePoolBalaced             *prometheus.Desc
+	storagePoolBalanced             *prometheus.Desc
 	storagePoolFreeBytes           *prometheus.Desc
 	storagePoolFreeSSDBytes        *prometheus.Desc
 	storagePoolTotalBytes          *prometheus.Desc
 	storagePoolTotalSSDBytes       *prometheus.Desc
-	storagePoolVirtalHotSpareBytes *prometheus.Desc
+	storagePoolVirtualHotSpareBytes *prometheus.Desc
 }
 
 func init() {
 	registerCollector("storage_pools", defaultEnabled, NewStoragePoolsCollector)
 }
 
-//NewStoragePoolsCollector exposed various metrics and information about storage pools.
+//NewStoragePoolsCollector exposes various metrics and information about storage pools.
 func NewStoragePoolsCollector() (Collector, error) {
 	return &storagePoolsCollector{
 		storagePoolTotal: prometheus.NewDesc(
@@ -45,7 +45,7 @@ func NewStoragePoolsCollector() (Collector, error) {
 		),
 		storagePoolManual: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "storage_pool", "manual"),
-			"0 of storage pool is not manually managed, 1 is it is.",
+			"0 if storage pool is not manually managed, 1 is it is.",
 			[]string{"name"}, ConstLabels,
 		),
 		storagePoolAvailBytes: prometheus.NewDesc(
@@ -58,7 +58,7 @@ func NewStoragePoolsCollector() (Collector, error) {
 			"Number of bytes available on ssd for the storage pool.",
 			[]string{"name"}, ConstLabels,
 		),
-		storagePoolBalaced: prometheus.NewDesc(
+		storagePoolBalanced: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "storage_pool", "balanced"),
 			"0 if the storage pool is balanced, 1 if it is not.",
 			[]string{"name"}, ConstLabels,
@@ -83,7 +83,7 @@ func NewStoragePoolsCollector() (Collector, error) {
 			"Total number of bytes on ssd for the storage pool.",
 			[]string{"name"}, ConstLabels,
 		),
-		storagePoolVirtalHotSpareBytes: prometheus.NewDesc(
+		storagePoolVirtualHotSpareBytes: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "storage_pool", "bytes_virtual_hot_spare"),
 			"Number of bytes in vhs for the storage pool.",
 			[]string{"name"}, ConstLabels,
@@ -115,7 +115,7 @@ func (c *storagePoolsCollector) Update(ch chan<- prometheus.Metric) error {
 		} else {
 			balanced = 1
 		}
-		ch <- prometheus.MustNewConstMetric(c.storagePoolBalaced, prometheus.GaugeValue, balanced, pool.Name)
+		ch <- prometheus.MustNewConstMetric(c.storagePoolBalanced, prometheus.GaugeValue, balanced, pool.Name)
 
 		bAvail, err := strconv.Atoi(pool.Usage.AvailBytes)
 		if err != nil {
@@ -163,7 +163,7 @@ func (c *storagePoolsCollector) Update(ch chan<- prometheus.Metric) error {
 		if err != nil {
 			log.Warn("Unable to convert virtualhotsparebytes to int.")
 		} else {
-			ch <- prometheus.MustNewConstMetric(c.storagePoolVirtalHotSpareBytes, prometheus.GaugeValue, float64(bVHS), pool.Name)
+			ch <- prometheus.MustNewConstMetric(c.storagePoolVirtualHotSpareBytes, prometheus.GaugeValue, float64(bVHS), pool.Name)
 		}
 
 	}

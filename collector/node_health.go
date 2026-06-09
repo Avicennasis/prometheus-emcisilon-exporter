@@ -39,7 +39,7 @@ func NewNodeHealthCollector() (Collector, error) {
 	return &nodeHealthCollector{
 		nodeProcessCount: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, nodeCollectorSubsystem, "process_count"),
-			"Number of processess on the node.",
+			"Number of processes on the node.",
 			[]string{"node"}, ConstLabels,
 		),
 		nodeNvramBatteryStatus: prometheus.NewDesc(
@@ -54,7 +54,7 @@ func NewNodeHealthCollector() (Collector, error) {
 		),
 		nodeDiskUnhealthyCount: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, nodeCollectorSubsystem, "disk_unhealthy_count"),
-			"Number of unhealthy disk per node as an int.",
+			"Number of unhealthy disks per node as an int.",
 			[]string{"node"}, ConstLabels,
 		),
 		nodeHealth: prometheus.NewDesc(
@@ -64,12 +64,12 @@ func NewNodeHealthCollector() (Collector, error) {
 		),
 		nodeDiskCount: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, nodeCollectorSubsystem, "disk_count"),
-			"Number of disk per node as seen by the onefs system.",
+			"Number of disks per node as seen by the onefs system.",
 			[]string{"node"}, ConstLabels,
 		),
 		nodeBootTime: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, nodeCollectorSubsystem, "boottime"),
-			"Unix timestamp of when a load booted.",
+			"Unix timestamp of when a node booted.",
 			[]string{"node"}, ConstLabels,
 		),
 		nodeUptime: prometheus.NewDesc(

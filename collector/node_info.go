@@ -32,7 +32,7 @@ func init() {
 	registerCollector("node_info", defaultEnabled, NewNodeStatusCollector)
 }
 
-//NewNodeStatusCollector exposed various metrics and information about nodes.
+//NewNodeStatusCollector exposes various metrics and information about nodes.
 func NewNodeStatusCollector() (Collector, error) {
 	return &nodeStatusCollector{
 		nodeInfo: prometheus.NewDesc(
@@ -121,7 +121,7 @@ func (c *nodeStatusCollector) updatePowerSupplyStatus(ch chan<- prometheus.Metri
 func (c *nodeStatusCollector) updateDriveStatus(ch chan<- prometheus.Metric) error {
 	resp, err := isiclient.GetDriveInfo(IsiCluster.Client)
 	if err != nil {
-		log.Warnf("Unabled to collect drive status. %s", err)
+		log.Warnf("Unable to collect drive status. %s", err)
 		return err
 	}
 	for _, node := range resp.Nodes {

@@ -32,7 +32,7 @@ func init() {
 	registerCollector("node_partition", defaultEnabled, NewNodePartitionCollector)
 }
 
-//NewNodePartitionCollector exposed various metrics and information about nodes.
+//NewNodePartitionCollector exposes various metrics and information about nodes.
 func NewNodePartitionCollector() (Collector, error) {
 	return &nodePartitionCollector{
 		nodePartitionUsedSpacePercentage: prometheus.NewDesc(

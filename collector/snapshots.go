@@ -37,7 +37,7 @@ func init() {
 	registerCollector("snapshots", defaultEnabled, NewSnapshotsCollector)
 }
 
-//NewSnapshotsCollector returns a new Collector exposing sync IQ policy information.
+//NewSnapshotsCollector returns a new Collector exposing snapshot information.
 func NewSnapshotsCollector() (Collector, error) {
 	return &snapshotsCollector{
 		snapshots7DayCount: prometheus.NewDesc(
@@ -92,7 +92,7 @@ func NewSnapshotsCollector() (Collector, error) {
 		),
 		snapshotsTotalSize: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "snapshots", "total_size"),
-			"Size in bytes of space occupides by all snapshots.",
+			"Size in bytes of space occupied by all snapshots.",
 			nil, ConstLabels,
 		),
 	}, nil
@@ -101,7 +101,7 @@ func NewSnapshotsCollector() (Collector, error) {
 func (c *snapshotsCollector) Update(ch chan<- prometheus.Metric) error {
 	err := c.updateSummary(ch)
 	if err != nil {
-		log.Warnf("Unabled to update snapshot summary information: %s", err)
+		log.Warnf("Unable to update snapshot summary information: %s", err)
 	}
 
 	err = c.updateDayCounts(ch)
@@ -139,7 +139,7 @@ func (c *snapshotsCollector) updateDayCounts(ch chan<- prometheus.Metric) error 
 	}
 
 	//You should increase the size of the array if you are adding new thresholds.
-	//Make sure to add a new prometheus descriptor to the snapshotsCollector stuct.
+	//Make sure to add a new prometheus descriptor to the snapshotsCollector struct.
 	//Make sure to keep thresholds in increasing order of days.
 	var thresholds = []TimeThreshold{
 		{"7d", 7, 0, c.snapshots7DayCount},
@@ -161,8 +161,8 @@ func (c *snapshotsCollector) updateDayCounts(ch chan<- prometheus.Metric) error 
 			if days >= thresholds[idx].Days {
 				thresholds[idx].Counter++
 			} else {
-				//We assume consistent order in the thresold array.
-				//Since the thresolds only get larger, if we fail one then move on to the next snapshot.
+				//We assume consistent order in the threshold array.
+				//Since the thresholds only get larger, if we fail one then move on to the next snapshot.
 				break
 			}
 		}

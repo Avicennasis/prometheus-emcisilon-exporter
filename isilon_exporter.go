@@ -70,7 +70,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		prometheus.DefaultGatherer,
 		registry,
 	}
-	// Delegate http serving to Prometheus client Librar, which will call collector.Collect.
+	// Delegate http serving to Prometheus client Library, which will call collector.Collect.
 	h := promhttp.InstrumentMetricHandler(
 		registry,
 		promhttp.HandlerFor(gatherers,
@@ -102,7 +102,7 @@ func main() {
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 
-	//Create an IsilonCluster struct and pass it the infor from the kingpin flags.
+	//Create an IsilonCluster struct and pass it the info from the kingpin flags.
 	if *cUname == "" {
 		log.Fatalf("No cluster username specified.")
 	}

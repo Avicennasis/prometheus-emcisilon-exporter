@@ -21,7 +21,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-// Defined top level common namespace that all metrics use.
+// Defines top level common namespace that all metrics use.
 const (
 	defaultEnabled  = true
 	defaultDisabled = false
@@ -67,7 +67,7 @@ func NewIsilonCollector(fqdn string, port string, uname string, pwdenv string, s
 		IsiCluster.Site = site
 		IsiCluster.QuotaOnly = qOnly
 
-		// Get the the goisilon connector and put it into the shared IsiClusterConfig struct.
+		// Get the goisilon connector and put it into the shared IsiClusterConfig struct.
 		log.Debugf("Creating connection to the cluster endpoint %s", IsiCluster.FQDN)
 		err := GetClusterConnector()
 		if err != nil {
@@ -75,7 +75,7 @@ func NewIsilonCollector(fqdn string, port string, uname string, pwdenv string, s
 		}
 
 		log.Debug("Getting isi config cluster name from identity endpoint.")
-		//Get the clusster name from the isilon client.
+		//Get the cluster name from the isilon client.
 		err = SetClusterConfigName()
 		if err != nil {
 			return nil, fmt.Errorf("Unable to get the cluster config name from the identity endpoint: %s", err)
@@ -88,11 +88,11 @@ func NewIsilonCollector(fqdn string, port string, uname string, pwdenv string, s
 				return nil, fmt.Errorf("Unable to get count of quotas from the system. %s", err)
 			}
 
-			flag := kingpin.Flag("collector.quota.retry", "Number of time to attempt collection of quota metrics (default: 3).").Default("3").Int64()
+			flag := kingpin.Flag("collector.quota.retry", "Number of times to attempt collection of quota metrics (default: 3).").Default("3").Int64()
 			IsiCluster.Quotas.Retry = *flag
 		}
 
-		// Create descriptors for collector leve metrics.
+		// Create descriptors for collector level metrics.
 		scrapeDurationDesc = prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "scrape", "collector_duration_seconds"),
 			"isilon_exporter: Duration of a collector scrape,",
@@ -105,7 +105,7 @@ func NewIsilonCollector(fqdn string, port string, uname string, pwdenv string, s
 		)
 		exporterDurationDesc = prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "exporter", "duration_seconds"),
-			"Duration in second of the entire exporter run.",
+			"Duration in seconds of the entire exporter run.",
 			nil, ConstLabels,
 		)
 		statsEngineCallFailure = prometheus.NewDesc(
@@ -159,7 +159,7 @@ func NewIsilonCollector(fqdn string, port string, uname string, pwdenv string, s
 	return &isilonCollector{Collectors: collectors}, nil
 }
 
-// Descibe implements the prometheus.Collector interface.
+// Describe implements the prometheus.Collector interface.
 func (n isilonCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- scrapeDurationDesc
 	ch <- scrapeSuccessDesc
